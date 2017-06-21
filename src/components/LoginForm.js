@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, Button, CardSection, Input } from './common';
+import { Card, Button, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
 
-  onEmailChange(text) {
+  onEmailChange(text) { // event handler - glue code
     this.props.emailChanged(text);
   }
 
-
-  onPasswordChange(text) {
+  onPasswordChange(text) { // event handler - glue code
     this.props.passwordChanged(text);
   }
 
@@ -21,6 +20,17 @@ class LoginForm extends Component {
     this.props.loginUser({ email, password });
   }
 
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner size="large" />;
+    }
+
+    return (
+    <Button onPress={this.onButtonPress.bind(this)}>
+      Login
+    </Button>
+    );
+  }
 
   render() {
     return (
@@ -48,10 +58,8 @@ class LoginForm extends Component {
           {this.props.error}
         </Text>
 
-        <CardSection>
-          <Button onPress={this.onButtonPress.bind(this)}>
-            Log in
-          </Button>
+        <CardSection>          
+          {this.renderButton()}
         </CardSection>
       </Card>
     );
@@ -67,9 +75,10 @@ const styles = {
 };
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password, error } = auth;
+  const { email, password, error, loading } = auth;
 
-  return { email, password, error };
+  return { email, password, error, loading };
 }; // login form now sees this prop
+
 
 export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm);
