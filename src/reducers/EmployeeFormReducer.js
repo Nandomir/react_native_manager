@@ -1,5 +1,6 @@
 import {
-  EMPLOYEE_UPDATE
+  EMPLOYEE_UPDATE,
+  EMPLOYEE_CREATE
 } from '../actions/types.js';
 
 const INITIAL_STATE = {
@@ -15,6 +16,8 @@ export default (state = INITIAL_STATE, action) => {
       // reducer has to return a new object as well
       return { ...state, [action.payload.prop]: action.payload.value };
       // the [] above is KEY INTERPOLATION, key added to this object is determined at runtime
+    case EMPLOYEE_CREATE:
+      return INITIAL_STATE;
     default:
       return state;
   }
