@@ -4,7 +4,7 @@ import React from 'react';
 import { Actions, Scene, Router } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm.js';
 import EmployeeList from './components/EmployeeList.js';
-import EmployeeCreate from './components/EmployeeCreate.js'
+import EmployeeCreate from './components/EmployeeCreate.js';
 
 
 const RouterComponent = () => {
