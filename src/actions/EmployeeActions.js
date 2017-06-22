@@ -1,6 +1,11 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
-import { EMPLOYEE_UPDATE, EMPLOYEE_CREATE, EMPLOYEE_FETCH_SUCCESS } from './types.js';
+import { 
+  EMPLOYEE_UPDATE, 
+  EMPLOYEE_CREATE, 
+  EMPLOYEE_FETCH_SUCCESS, 
+  EMPLOYEE_SAVE_SUCCESS 
+} from './types.js';
 
 export const employeeUpdate = ({ prop, value }) => {
   return {
@@ -37,9 +42,12 @@ export const employeesFetch = () => {
 export const employeeSave = ({ name, phone, shift, uid }) => {
   const { currentUser } = firebase.auth();
 
-  return () => {
+  return (dispatch) => {
     firebase.database().ref(`/users/${currentUser.uid}/employees/${uid}`)
       .set({ name, phone, shift })
-      .then(() => console.log('Saved!'));
+      .then(() => {
+        dispatch({ type: EMPLOYEE_SAVE_SUCCESS });
+        Actions.employeeList({ type: 'reset' });
+      });
   };
 };
